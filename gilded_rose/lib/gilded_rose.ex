@@ -49,9 +49,16 @@ defmodule GildedRose do
   defp update_backstage_passes(item) do
     item
     |> increase_quality()
-    |> (fn item -> if item.sell_in < 11, do: increase_quality(item), else: item end).()
-    |> (fn item -> if item.sell_in < 6, do: increase_quality(item), else: item end).()
+    |> increase_quality_if_near_deadline()
+    |> increase_quality_if_expired()
   end
+
+  defp increase_quality_if_near_deadline(item) when item.sell_in < 11, do: increase_quality(item)
+  defp increase_quality_if_near_deadline(item), do: item
+
+  defp increase_quality_if_expired(item) when item.sell_in < 6, do: increase_quality(item)
+  defp increase_quality_if_expired(item), do: item
+
 
   defp handle_expired(%{name: "Aged Brie"} = item), do: handle_aged_brie(item)
 

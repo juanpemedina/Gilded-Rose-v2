@@ -25,13 +25,8 @@ defmodule GildedRose do
 
   defp update_quality_for_item(item), do: degrade_quality(item, 1)
 
-  defp update_sell_in(item) do
-    if should_decrease_sell_in?(item) do
-      %{item | sell_in: item.sell_in - 1}
-    else
-      item
-    end
-  end
+  defp update_sell_in(%{name: "Sulfuras, Hand of Ragnaros"} = item), do: item
+  defp update_sell_in(item), do: %{item | sell_in: item.sell_in - 1}
 
   defp handle_sell_in_expiration(item) do
     if item.sell_in < 0, do: handle_expired(item), else: item

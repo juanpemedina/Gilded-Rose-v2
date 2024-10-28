@@ -73,13 +73,12 @@ defmodule GildedRose do
     degrade_quality(item, 1)
   end
 
-  defp handle_special_items(item) do
-    cond do
-      item.name == "Aged Brie" -> increase_quality(item)
-      item.name == "Backstage passes to a TAFKAL80ETC concert" -> update_backstage_passes(item)
-      true -> degrade_quality(item, 1)
-    end
-  end
+  defp handle_special_items(%{name: "Aged Brie"} = item), do: increase_quality(item)
+
+  defp handle_special_items(%{name: "Backstage passes to a TAFKAL80ETC concert"} = item), do: update_backstage_passes(item)
+
+  defp handle_special_items(item), do: degrade_quality(item, 1)
+
 
   defp should_decrease_sell_in?(item) do
     item.name != "Sulfuras, Hand of Ragnaros"

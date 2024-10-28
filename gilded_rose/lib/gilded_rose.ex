@@ -34,13 +34,12 @@ defmodule GildedRose do
 
   defp handle_sell_in_expiration(item), do: item
 
+  defp degrade_quality(item, amount) when item.name == "Sulfuras, Hand of Ragnaros", do: item
+  defp degrade_quality(%{quality: quality} = item, amount) when quality <= 0, do: item
   defp degrade_quality(item, amount) do
-    if item.name != "Sulfuras, Hand of Ragnaros" and item.quality > 0 do
-      %{item | quality: item.quality - amount}
-    else
-      item
-    end
+    %{item | quality: item.quality - amount}
   end
+
 
   defp increase_quality(item, amount \\ 1) do
     %{item | quality: min(item.quality + amount, 50)}

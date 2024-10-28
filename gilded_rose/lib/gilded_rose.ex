@@ -86,7 +86,10 @@ defmodule GildedRose do
     end
   end
 
+  @items_no_decrement ["Sulfuras, Hand of Ragnaros"]
+
   defp should_decrease_sell_in?(item) do
-    item.name != "Sulfuras, Hand of Ragnaros"
+    not Enum.member?(@items_no_decrement, item.name)
   end
+
 end

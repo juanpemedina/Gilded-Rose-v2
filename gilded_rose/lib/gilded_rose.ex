@@ -59,14 +59,10 @@ defmodule GildedRose do
     |> (fn item -> if item.sell_in < 6, do: increase_quality(item), else: item end).()
   end
 
-  defp handle_expired(item) do
-    cond do
-      item.name == "Aged Brie" -> handle_aged_brie(item)
-      item.name == "Backstage passes to a TAFKAL80ETC concert" -> handle_backstage_passes(item)
-      item.quality > 0 -> handle_normal_item(item)
-      true -> item
-    end
-  end
+  defp handle_expired(%{name: "Aged Brie"} = item), do: handle_aged_brie(item)
+  defp handle_expired(%{name: "Backstage passes to a TAFKAL80ETC concert"} = item), do: handle_backstage_passes(item)
+  defp handle_expired(%{quality: quality} = item) when quality > 0, do: handle_normal_item(item)
+  defp handle_expired(item), do: item
 
   defp handle_aged_brie(item) do
     increase_quality(item)

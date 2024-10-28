@@ -27,8 +27,8 @@ defmodule GildedRose do
   defp handle_sell_in_expiration(item) when item.sell_in < 0, do: handle_expired(item)
   defp handle_sell_in_expiration(item), do: item
 
-  defp degrade_quality(item, amount) when item.name == "Sulfuras, Hand of Ragnaros", do: item
-  defp degrade_quality(%{quality: quality} = item, amount) when quality <= 0, do: item
+  defp degrade_quality(item, _amount) when item.name == "Sulfuras, Hand of Ragnaros", do: item
+  defp degrade_quality(%{quality: quality} = item, _amount) when quality <= 0, do: item
   defp degrade_quality(item, amount) do
     %{item | quality: item.quality - amount}
   end
@@ -54,10 +54,4 @@ defmodule GildedRose do
   defp handle_expired(%{name: "Backstage passes to a TAFKAL80ETC concert"} = item), do: %{item | quality: 0}
   defp handle_expired(item) when item.quality > 0, do: degrade_quality(item, 1)
   defp handle_expired(item), do: item
-
-  defp handle_special_items(%{name: "Aged Brie"} = item), do: increase_quality(item)
-  defp handle_special_items(%{name: "Backstage passes to a TAFKAL80ETC concert"} = item), do: update_backstage_passes(item)
-  defp handle_special_items(item), do: degrade_quality(item, 1)
-
-  defp should_decrease_sell_in?(item), do: item.name != "Sulfuras, Hand of Ragnaros"
 end

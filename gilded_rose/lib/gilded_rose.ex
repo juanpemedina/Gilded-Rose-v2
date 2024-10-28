@@ -8,10 +8,12 @@ defmodule GildedRose do
   end
 
   def update_item(item) do
-    item = update_quality_for_item(item)
-    item = update_sell_in(item)
-    item = handle_sell_in_expiration(item)
+    item
+    |> update_quality_for_item()
+    |> update_sell_in()
+    |> handle_sell_in_expiration()
   end
+
 
   defp update_quality_for_item(item) do
     cond do
